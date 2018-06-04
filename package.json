@@ -1,0 +1,18 @@
+{
+    "name": "nextleveldb-active",
+    "main": "active-database.js",
+    "license": "MIT",
+    "dependencies": {
+        "nextleveldb-model": "^0.0.62"
+    },
+    "engines": {
+        "node": ">=9.3.0"
+    },
+    "description": "OO classes to represent live objects in a NextLevelDB database",
+    "author": "James Vickers <james@metabench.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/metabench/nextleveldb-active.git"
+    },
+    "version": "0.0.1"
+}
