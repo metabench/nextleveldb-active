@@ -133,9 +133,6 @@ class Active_Database {
         // Maybe proxies would help getting a table
 
 
-
-
-
         // create new Active Table based on the model?
 
         //this.tables = [];
@@ -154,7 +151,7 @@ class Active_Database {
         for (table of model.tables) {
             //console.log('Active_Database table', table);
 
-            console.log('Active_Database table.name', table.name);
+            //console.log('Active_Database table.name', table.name);
 
             ((table_name, table) => {
                 Object.defineProperty(this, table_name, {
@@ -187,13 +184,9 @@ class Active_Database {
                     }
                     //,
                     //set(value) {
-
                     //}
                 })
             })(table.name, table);
-
-
-
         }
 
 

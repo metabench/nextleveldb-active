@@ -50,6 +50,8 @@ class Active_Record extends Evented_Class {
 
     constructor(table, data) {
         //console.log('Active_Record');
+        //console.log('table', table);
+        //console.log('data', data);
         super();
 
 
@@ -220,7 +222,7 @@ class Active_Record extends Evented_Class {
 
                 (async () => {
                     let res_ensure = await db.ensure_table_record(model_table.id, br);
-                    //console.log('res_ensure', res_ensure);
+                    //console.log('1) res_ensure', res_ensure);
                     this.record = res_ensure;
                     this.exists_in_db = true;
                     this.raise('ready');
@@ -254,8 +256,10 @@ class Active_Record extends Evented_Class {
 
                 (async () => {
                     //console.log('pre ensure');
+                    // ensure_table_record needs to return the value inside the command response message.
                     let res_ensure = await db.ensure_table_record(model_table.id, br);
-                    //console.log('res_ensure', res_ensure);
+
+                    //console.log('2) res_ensure', res_ensure);
                     this.record = res_ensure;
                     this.exists_in_db = true;
                     this.raise('ready');
@@ -546,6 +550,9 @@ class Active_Record extends Evented_Class {
 
 
     get key() {
+        //console.trace();
+        //console.log('this.record', this.record);
+
         return this.record.key;
     }
     get value() {

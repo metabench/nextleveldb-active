@@ -3,7 +3,7 @@
     "main": "active-database.js",
     "license": "MIT",
     "dependencies": {
-        "nextleveldb-model": "^0.0.62"
+        "nextleveldb-model": "^0.0.65"
     },
     "engines": {
         "node": ">=9.3.0"
@@ -14,5 +14,5 @@
         "type": "git",
         "url": "https://github.com/metabench/nextleveldb-active.git"
     },
-    "version": "0.0.1"
+    "version": "0.0.2"
 }
