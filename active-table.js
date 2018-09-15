@@ -1,7 +1,7 @@
 const fnl = require('fnl');
 const prom_or_cb = fnl.prom_or_cb;
 const lang = require('lang-mini');
-const each = lang.each;
+const {each, tof} = lang;
 
 // Active-Table will be useful for adding new records
 //  It's possible for an Active Table to have its own records, active or inactive.
@@ -29,7 +29,6 @@ class Active_Table {
             // 
             // get an Active_Record_List / Set
 
-
             get() {
                 //console.log('get records');
 
@@ -44,7 +43,15 @@ class Active_Table {
 
                 // don't have all the answers, so get the observable here.
                 //console.log('model_table.id', model_table.id);
-                let obs_records = db.get_table_records(model_table.id);
+
+                // the id can be a number. should be fine.
+                console.log('pre get_table_records');
+
+                // want to be sure to return the plural.
+                //  could have that as a property of the observable.
+
+
+                let obs_records = db.get_table_records(model_table.name);
                 /*
                 obs_records.on('next', data => {
                     console.log('data', data);
@@ -143,6 +150,16 @@ class Active_Table {
 
     // Or elsewhere waits for the active record to become ready.
 
+    ready_active_record(data, callback) {
+        return prom_or_cb((solve, jettison) => {
+            let res = new Active_Record(this, data);
+            res.on('ready', () => {
+                solve(res);
+            });
+            res.on('error', jettison);
+        }, callback);
+    }
+
     new_active_record(data) {
         // Active_Record itself can do much of this.
         //console.log('new_active_record');
@@ -153,8 +170,6 @@ class Active_Table {
 
 
     }
-
-
 
     // But if it's not a record itself.
     //  ....
@@ -182,26 +197,48 @@ class Active_Table {
     }
 
 
+    // change this to observable.
+    //  could have event after each record in the batch.
     put(record, callback) {
         //console.log('8) put record', record);
         return prom_or_cb((resolve, reject) => {
             //console.log('pre new_active_record');
             // without an initial lookup?
 
-            let res = this.new_active_record(record);
-            //console.log('res', res);
-            res.on('ready', async () => {
-                //console.log('Active_Record is ready');
-                // We can tell the ar status...
+            // A single
+
+            // Can Active_Record put / ensure other linked records?
+
+            let t_record = tof(record);
+
+            if (t_record === 'array') {
+
+                // individual active records.
+                //  don't yet have a way to make a bunch of new active records in a batch.
+
+                (async() => {
+                    let res = [];
+                    for (let rec of record) {
+                        res.push(await this.ready_active_record(rec));
+                        // ready function for active record...
+                        //  a ready promise
+                    }
+                    resolve(res);
+                })();
+            } else {
+                let res = this.new_active_record(record);
                 //console.log('res', res);
-                //console.log('res.exists_in_db', res.exists_in_db);
+                res.on('ready', async () => {
+                    //console.log('Active_Record is ready');
+                    // We can tell the ar status...
+                    //console.log('res', res);
+                    //console.log('res.exists_in_db', res.exists_in_db);
 
-
-                //console.log('res.record', res.record);
-                //console.log('Object.keys(res)', Object.keys(res));
-
-                resolve(res);
-            });
+                    //console.log('res.record', res.record);
+                    //console.log('Object.keys(res)', Object.keys(res));
+                    resolve(res);
+                });
+            }
         }, callback);
 
         // check for overwrite?

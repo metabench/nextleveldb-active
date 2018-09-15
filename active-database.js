@@ -124,7 +124,6 @@ module.exports = Active_Database;
 class Active_Database {
     constructor(db) {
         //this.db = spec.db;
-
         this.db = db;
 
         // Not so sure about keeping Model references.
@@ -188,25 +187,27 @@ class Active_Database {
                 })
             })(table.name, table);
         }
-
-
-        /*
-        return new Proxy(this, {
-            get(target, prop) {
-
-                / *
-                if (Number(prop) == prop && !(prop in target)) {
-                    return self.data[prop];
-                }
-                return target[prop];
-                * /
-
-            }
-        });
-        */
-
-
     }
+
+    // ensuring related records
+    //  ensure related these records only
+    //   will need to check there are no other such related records, and remove them if there are.
+
+
+
+
+    // retrieve the related records, for any record, by key.
+
+    get_related_records(key_or_record) {
+        
+    }
+
+
+    // Functionality for getting the linked records.
+    //  Find all records that link to a specific record.
+
+    // However, that seems like it could be better in the core.
+
 
     // iterate the tables.
     // can use the model for that

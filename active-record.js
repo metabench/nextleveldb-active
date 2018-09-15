@@ -43,11 +43,18 @@ class Active_Record extends Evented_Class {
     constructor(table, data) {
         //console.log('Active_Record');
         //console.log('table', table);
-        //console.log('data', data);
         super();
         this.table = table;
         const db = table.db;
         let model_table = this.table.model;
+
+
+
+        // Putting associated records too...
+
+        
+
+
 
         // Active_Record needs to be really flexible.
         //  Other parts of the system won't need flexibility like this.
@@ -361,7 +368,7 @@ class Active_Record extends Evented_Class {
                     }
                 }
                 if (none_found) {
-                    //console.log('record not found already in db');
+                    console.log('record not found already in db');
                     this.exists_in_db = false;
                     // status
                     //  put-record
@@ -388,6 +395,8 @@ class Active_Record extends Evented_Class {
                     // Automatically ensures the record in the constructor!
                     //  Or finds the record...?
                     // 
+
+                    // Leaving the key out of it...?
                     let res_ensure = await db.ensure_table_record(model_table.id, br);
                     //console.log('res_ensure', res_ensure);
                     this.record = res_ensure;
@@ -413,7 +422,6 @@ class Active_Record extends Evented_Class {
         //   current
         //   creating
         //   error
-
     }
     lookup(data) {
         console.log('lookup', data);
