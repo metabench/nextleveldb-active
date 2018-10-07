@@ -13,9 +13,6 @@ const {each, tof} = lang;
 
 const Active_Record = require('./active-record');
 
-
-
-
 class Active_Table {
     constructor(active_db, model_table) {
 
@@ -45,7 +42,7 @@ class Active_Table {
                 //console.log('model_table.id', model_table.id);
 
                 // the id can be a number. should be fine.
-                console.log('pre get_table_records');
+                //console.log('pre get_table_records');
 
                 // want to be sure to return the plural.
                 //  could have that as a property of the observable.
